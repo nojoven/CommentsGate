@@ -20,7 +20,7 @@ def test_select_language():
    assert "Français" in  response.json()["message"]
 
    """Testing the English path"""
-   response = client.get("/lang/fr/publish")
+   response = client.get("/lang/en/publish")
    assert response.status_code == 200
    assert response.json() is not None
-   assert "Français" in  response.json()["message"]
+   assert "English" in  response.json()["message"]

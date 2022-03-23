@@ -24,3 +24,10 @@ def test_select_language():
    assert response.status_code == 200
    assert response.json() is not None
    assert "English" in  response.json()["message"]
+
+def test_get_all_target_comments():
+   targetId_example = "Comment-kjh784fgevdhhdwhh7563"
+
+   response = client.get(f"/target/{targetId_example}/comments")
+   assert response.status_code == 200
+   assert response.json() == True

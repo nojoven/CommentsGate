@@ -1,7 +1,7 @@
 from enum import Enum
 from fastapi import FastAPI, HTTPException, Request, Form, Path
 from fastapi.encoders import jsonable_encoder
-from models.comment import Comment
+from schemas.models import Comment
 
 
 class LangName(str, Enum):

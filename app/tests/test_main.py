@@ -44,9 +44,9 @@ def test_create_new_comment():
    comment["targetId"] = TARGET_ID_EXAMPLE
    comment["replies"] = ["aaaa"]
    comment["isReply"] = False
-   print(type(comment))
+   print(comment)
    response = client.post(
       f"/target/{TARGET_ID_EXAMPLE}/comments", 
       data=json.dumps(comment),
       headers={"Content-Type": "application/json"})
-   assert response.status_code == 200
+   assert response.status_code == 201

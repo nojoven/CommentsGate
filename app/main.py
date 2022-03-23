@@ -1,6 +1,7 @@
 from enum import Enum
-from fastapi import FastAPI
-from app.models.comment import Comment
+from fastapi import FastAPI, HTTPException, Request, Form, Path
+from fastapi.encoders import jsonable_encoder
+from models.comment import Comment
 
 
 class LangName(str, Enum):
@@ -27,19 +28,27 @@ async def select_language(lang_name: LangName):
 
 
 @app.get("/target/{targetId}/comments")
-async def targetComments(targetId: str):
+async def targetComments(targetId: str = Path(..., 
+summary="get all comments of a target.")):
    """
-   Get all comments of a target. 
-   operationId : targetComments
+   Get all comments of a target: 
+   
+   - **operationId** : targetComments
+   - **description**: Get all comments of a target.
    """
    return True
 
 
-@app.post("/target/{targetId}/comments")
-async def addComment(targetId: str, comment: Comment):
+@app.post("/target/{targetId}/comments", status_code=201)
+async def addComment(comment: Comment, targetId: str= Path(
+   ..., 
+   summary="Add comment on a target.")):
    """
-   Add comment on a target.comment
-   operationId: addComment
-   """
+   Add comment on a target:
 
-   return comment
+   - **operationId**: addComment.
+   """
+   if not comment:
+      raise HTTPException(status_code=422, detail="A comment is required.")
+
+   return jsonable_encoder(comment)

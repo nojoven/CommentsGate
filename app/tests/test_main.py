@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 from fastapi.testclient import TestClient
 
-from ..utils.constants import TARGET_ID_EXAMPLE
+from utils.constants import TARGET_ID_EXAMPLE
 from app.main import app
 
 
@@ -43,7 +43,6 @@ def test_create_new_comment():
    comment["authorId"] = "cjo8922"
    comment["targetId"] = TARGET_ID_EXAMPLE
    comment["replies"] = ["aaaa"]
-   comment["isReply"] = False
    print(comment)
    response = client.post(
       f"/target/{TARGET_ID_EXAMPLE}/comments", 

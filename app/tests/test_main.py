@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from datetime import datetime
+import json
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -31,3 +32,21 @@ def test_get_all_target_comments():
    response = client.get(f"/target/{targetId_example}/comments")
    assert response.status_code == 200
    assert response.json() == True
+
+def test_create_new_comment():
+   targetId_example = "Comment-kjh784fgevdhhdwhh7563"
+   comment = dict()
+   comment["id"] = "opcrc-6575"
+   comment["textFr"] = "Bien joué!"
+   comment["textEn"] = "Well Done!"
+   comment["publishedAt"] = str(datetime.now().timestamp())
+   comment["authorId"] = "cjo8922"
+   comment["targetId"] = targetId_example
+   comment["replies"] = ["aaaa"]
+   comment["isReply"] = False
+   print(type(comment))
+   response = client.post(
+      f"/target/{targetId_example}/comments", 
+      data=json.dumps(comment),
+      headers={"Content-Type": "application/json"})
+   assert response.status_code == 200

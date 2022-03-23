@@ -7,12 +7,12 @@ from pydantic import BaseModel
 
 
 class Comment(BaseModel):
-    id: int
+    id: str
     targetId: str
     textFr: str
     textEn: str
-    publishedAt: datetime
+    publishedAt: str
     authorId: str
     targetId: str
-    replies: list
-    isReply: bool
+    replies: Optional[list] = None
+    isReply: Optional[bool] = False

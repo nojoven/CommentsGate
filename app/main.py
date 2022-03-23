@@ -1,5 +1,7 @@
 from enum import Enum
 from fastapi import FastAPI
+from app.models.comment import Comment
+
 
 class LangName(str, Enum):
    fr = "fr"
@@ -34,9 +36,10 @@ async def targetComments(targetId: str):
 
 
 @app.post("/target/{targetId}/comments")
-async def addComment(targetId: str):
+async def addComment(targetId: str, comment: Comment):
    """
    Add comment on a target.comment
    operationId: addComment
    """
-   return True
+
+   return comment

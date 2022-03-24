@@ -16,6 +16,6 @@ class Comment(Base):
     authorId = Column(String, ForeignKey('users.author_id'))
     targetId = Column(String, unique=True, index=True)
     reply_id = Column(Integer, ForeignKey('comments.comment_id'))
-    replies = relation("Comment", remote_side=[comment_id], uselist=True)
+    replies = relation("Comment", remote_side=[commentId], uselist=True)
 
     author = relationship("User", back_populates="comments")

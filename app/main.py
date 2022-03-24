@@ -1,7 +1,16 @@
 from enum import Enum
-from fastapi import FastAPI, HTTPException, Request, Form, Path
+from fastapi import Depends, FastAPI, HTTPException, Request, Form, Path
 from fastapi.encoders import jsonable_encoder
-from schemas.models import Comment
+
+from sqlalchemy.orm import Session
+
+import crud
+from models import comment
+from schemas.models import CommentCreate as NewComment
+
+from database import SessionLocal, engine
+comment.Base.metadata.create_all(bind=engine)
+
 
 
 class LangName(str, Enum):
@@ -10,6 +19,15 @@ class LangName(str, Enum):
 
 
 app = FastAPI()
+
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 @app.get("/")
@@ -40,9 +58,10 @@ summary="get all comments of a target.")):
 
 
 @app.post("/target/{targetId}/comments", status_code=201)
-async def addComment(comment: Comment, targetId: str= Path(
-   ..., 
-   summary="Add comment on a target.")):
+async def addComment(
+   comment: NewComment, 
+   targetId: str = Path(..., summary="Add comment on a target."),
+   db: Session = Depends(get_db)):
    """
    Add comment on a target:
 
@@ -50,5 +69,7 @@ async def addComment(comment: Comment, targetId: str= Path(
    """
    if not comment:
       raise HTTPException(status_code=422, detail="A comment is required.")
+
+
 
    return jsonable_encoder(comment)

@@ -13,9 +13,9 @@ class Comment(Base):
     textFr = Column(String, unique=True, index=True)
     textEn = Column(String, unique=True, index=True)
     publishedAt = Column(String, unique=True, index=True)
-    authorId = Column(String, ForeignKey('users.author_id'))
+    authorId = Column(String, ForeignKey('users.authorId'))
     targetId = Column(String, unique=True, index=True)
-    reply_id = Column(Integer, ForeignKey('comments.comment_id'))
+    replyId = Column(Integer, ForeignKey('comments.commentId'))
     replies = relation("Comment", remote_side=[commentId], uselist=True)
 
     author = relationship("User", back_populates="comments")

@@ -6,8 +6,8 @@ from database import Base
 
 
 class User(Base):
-    __tablename__ = "users"
+   __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    author_id = Column(String, unique=True, index=True)
-    comments = relationship("CommentTable", back_populates="author")
+   id = Column(Integer, primary_key=True, index=True)
+   authorId = Column(String, unique=True, index=True)
+   comments = relationship("Comment", back_populates="author")

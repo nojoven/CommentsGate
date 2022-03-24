@@ -10,12 +10,12 @@ class Comment(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     commentId = Column(String, unique=True, index=True)
-    textFr = Column(String, unique=True, index=True)
-    textEn = Column(String, unique=True, index=True)
+    textFr = Column(String, index=True)
+    textEn = Column(String, index=True)
     publishedAt = Column(String, unique=True, index=True)
-    authorId = Column(String, ForeignKey('users.authorId'))
+    authorId = Column(String, ForeignKey('users.authorId'), unique=True)
     targetId = Column(String, unique=True, index=True)
-    replyId = Column(Integer, ForeignKey('comments.commentId'))
+    # replyId = Column(Integer, ForeignKey('comments.commentId'))
     replies = relation("Comment", remote_side=[commentId], uselist=True)
 
     author = relationship("User", back_populates="comments")

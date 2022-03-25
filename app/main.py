@@ -30,21 +30,6 @@ def get_db():
         db.close()
 
 
-@app.get("/")
-async def home():
-   return {"message": "Hello World"}
-
-@app.get("/lang/{lang_name}/publish")
-async def select_language(lang_name: LangName):
-   if lang_name == LangName.fr:
-      return {"lang_name": lang_name, "message": "Publiez en Français"}
-
-   if lang_name == LangName.en:
-      return {"lang_name": lang_name, "message": "Publish in English"}
-
-   return {"model_name": lang_name, "message": "ERROR"}
-
-
 @app.get("/target/{targetId}/comments", responses={
    200: {"description": "comments matching targetId"},
    404: {"description": "Comment not found"}
@@ -77,15 +62,21 @@ async def add_comment(
    """
    Add comment on a target:
 
-   - **operationId**: addComment.
+   - **operationId**: addComment
    """
    
    if not comment:
       raise HTTPException(status_code=422, detail="A comment is required.")
 
+   if not comment.textFr and not comment.textEn:
+      raise HTTPException(status_code=422, detail="A text is required at least in one language.")
+
+   if textFr and not comment.textEn:
+      pass
+
+   if textEn and not comment.textFr:
+      pass
+   
    new_comment = crud.create_comment(db, comment)
-
   
-
-
    return jsonable_encoder(new_comment)

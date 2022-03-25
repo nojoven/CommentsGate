@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 import crud
 from models import comment
-from schemas.models import Comment, NewComment
+from schemas.models import NewComment
 
 from database import SessionLocal, engine
 comment.Base.metadata.create_all(bind=engine)
@@ -79,6 +79,7 @@ async def add_comment(
 
    - **operationId**: addComment.
    """
+   
    if not comment:
       raise HTTPException(status_code=422, detail="A comment is required.")
 

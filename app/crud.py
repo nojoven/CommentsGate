@@ -3,12 +3,7 @@ from sqlalchemy.orm import Session
 from models import comment
 from schemas import models as pydantic_models
 
-def trigger_eager_load(data):
-   for comment in data:
-      for reply in comment.replies:
-         trigger_eager_load(reply.replies)
-      
-
+from utils.helpers import trigger_eager_load
 
 def get_target_comments(db: Session, targetId: str, skip: int = 0, limit: int = 200):
    data = db.query(comment.Comment).filter(comment.Comment.targetId == targetId).offset(skip).limit(limit).all()

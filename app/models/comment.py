@@ -1,13 +1,12 @@
-from datetime import datetime
 import uuid
-from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String
+from datetime import datetime
 
+from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from database import Base
+from utils.helpers import generate_uuid
 
-def generate_uuid():
-    return str(uuid.uuid4())
+from database import Base
 
 
 class Comment(Base):

@@ -26,3 +26,5 @@ def test_get_all_target_comments():
       assert response.status_code == 200
       assert isinstance(json.loads(response.content), list)
       assert "replies" in json.loads(response.content)[0].keys()
+      assert len(json.loads(response.content)[0]["textFr"]) > 0
+      assert len(json.loads(response.content)[0]["textEn"]) > 0

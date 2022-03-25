@@ -7,10 +7,11 @@ from sqlalchemy.orm import Session
 import crud
 from models import comment
 from schemas.models import NewComment
-
+from utils.helpers import is_timestamp
 from database import SessionLocal, engine
-comment.Base.metadata.create_all(bind=engine)
 
+
+comment.Base.metadata.create_all(bind=engine)
 
 
 class LangName(str, Enum):
@@ -70,11 +71,14 @@ async def add_comment(
 
    if not comment.textFr and not comment.textEn:
       raise HTTPException(status_code=422, detail="A text is required at least in one language.")
+   
+   if comment.publishedAt and not is_timestamp(comment.publishedAt) :
+      raise HTTPException(status_code=422, detail="The date field is not a valid timestamp.")
 
-   if textFr and not comment.textEn:
+   if comment.textFr and not comment.textEn:
       pass
 
-   if textEn and not comment.textFr:
+   if comment.textEn and not comment.textFr:
       pass
    
    new_comment = crud.create_comment(db, comment)

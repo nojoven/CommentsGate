@@ -1,25 +1,26 @@
-from typing import Optional
 
+from typing import Optional
+from uuid import UUID
 from pydantic import BaseModel
 
 
 class CommentBase(BaseModel):
-   commentId: str
-   targetId: str
-   textFr: str
-   textEn: str
-   publishedAt: str
-   authorId: str
-   targetId: str
+   id: Optional[UUID]
+   targetId: Optional[str]
+   textFr: Optional[str]
+   textEn: Optional[str]
+   publishedAt: Optional[str]
+   authorId: Optional[str]
+   #replies: list[str] = []
+   #childId: Optional[str]
 
 
-class CommentCreate(CommentBase):
+class NewComment(CommentBase):
    pass
 
 class Comment(CommentBase):
-   id: Optional[int]
-   replies: list[str] = []
-
+   id: str
+   
    
    class Config:
       orm_mode = True

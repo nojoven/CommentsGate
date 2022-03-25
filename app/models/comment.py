@@ -1,21 +1,21 @@
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+
 from sqlalchemy.orm import relationship, relation
 
 from database import Base
 
-from .user import User
-
 class Comment(Base):
     __tablename__ = "comments"
 
-    id = Column(Integer, primary_key=True, index=True)
-    commentId = Column(String, unique=True, index=True)
+    id = Column(UUID(as_uuid=True), unique=True, primary_key=True, index=True, default=uuid.uuid4)
     textFr = Column(String, index=True)
     textEn = Column(String, index=True)
-    publishedAt = Column(String, unique=True, index=True)
-    authorId = Column(String, ForeignKey('users.authorId'), unique=True)
-    targetId = Column(String, unique=True, index=True)
-    # replyId = Column(Integer, ForeignKey('comments.commentId'))
-    replies = relation("Comment", remote_side=[commentId], uselist=True)
+    publishedAt = Column(String, index=True)
+    authorId =  Column(String, index=True)  # Column(String, ForeignKey('users.authorId'), unique=True)
+    targetId = Column(String, index=True)
+    #childId = Column(String, ForeignKey('comments.id'))
+    #replies =  relationship("Comment", uselist=True) #Column(MutableList.as_mutable(PickleType), default=[]) #
 
-    author = relationship("User", back_populates="comments")
+

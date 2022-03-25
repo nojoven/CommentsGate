@@ -1,3 +1,4 @@
+from email import message
 from enum import Enum
 from fastapi import Depends, FastAPI, HTTPException, Path
 from fastapi.encoders import jsonable_encoder
@@ -77,10 +78,14 @@ async def add_comment(
 
    if comment.textFr and not comment.textEn:
       comment.textEn = translate_fr_to_en(comment.textFr)
+      message = f"'{comment.textFr}' => '{comment.textEn}'"
 
    if comment.textEn and not comment.textFr:
       comment.textFr = translate_en_to_fr(comment.textEn)
+      message = f"'{comment.textFr}' => '{comment.textEn}'"
    
-   new_comment = crud.create_comment(db, comment)
-  
-   return jsonable_encoder(new_comment)
+   new_comment = jsonable_encoder(crud.create_comment(db, comment))
+
+   
+   return new_comment
+   # return jsonable_encoder(new_comment)

@@ -2,21 +2,18 @@
 import uuid
 
 from deep_translator import DeeplTranslator
+import detectlanguage
 
+from settings import LANG_DETECTION_API_KEY, DEEPL_API_KEY
 
 def generate_uuid():
     return str(uuid.uuid4())
 
-def is_french_text(text: str):
-   pass
-
-def is_english_text(text: str):
-   pass
+def identify_language(text: str):
+   return detectlanguage.single_detection(text, api_key=LANG_DETECTION_API_KEY)
 
 def is_timestamp(string: str):
-   """
-   Checks if publishedAt can be converted to float value.
-   """
+   """Checks if publishedAt can be converted to float value."""
    try:
       float(string)
       return True
@@ -25,11 +22,17 @@ def is_timestamp(string: str):
 
 def translate_en_to_fr(text: str):
    """Translates English text."""
-   return DeeplTranslator(source='en', target='fr').translate(text)
+   return DeeplTranslator(
+      api_key="9d2afc1b-90bc-a546-6c69-b0421a7770e7:fx", 
+      source="en", target="fr", 
+      use_free_api=True).translate(text)
    
 def translate_fr_to_en(text: str):
    """Translates French text."""
-   return DeeplTranslator(source='fr', target='en').translate(text)
+   return DeeplTranslator(
+      api_key="9d2afc1b-90bc-a546-6c69-b0421a7770e7:fx", 
+      source="fr", target="en", 
+      use_free_api=True).translate(text)
 
 def trigger_eager_load(data):
    """

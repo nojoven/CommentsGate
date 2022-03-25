@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 import crud
 from models import comment
 from schemas.models import NewComment
-from utils.helpers import is_timestamp
+from utils.helpers import is_timestamp, translate_en_to_fr, translate_fr_to_en
 from database import SessionLocal, engine
 
 
@@ -50,7 +50,7 @@ async def get_target_comments(
       raise HTTPException(404, detail="Comment not found.")
 
 
-   return comments
+   return jsonable_encoder(comments)
 
 
 @app.post("/target/{targetId}/comments", responses={
@@ -76,10 +76,10 @@ async def add_comment(
       raise HTTPException(status_code=422, detail="The date field is not a valid timestamp.")
 
    if comment.textFr and not comment.textEn:
-      pass
+      comment.textEn = translate_fr_to_en(comment.textFr)
 
    if comment.textEn and not comment.textFr:
-      pass
+      comment.textFr = translate_en_to_fr(comment.textEn)
    
    new_comment = crud.create_comment(db, comment)
   

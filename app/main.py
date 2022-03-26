@@ -84,9 +84,12 @@ def add_comment(
       comment.textFr = translate_en_to_fr(comment.textEn)
       message = f"'{comment.textFr}' => '{comment.textEn}'"
    
+   if not comment.targetId or comment.targetId != targetId:
+      target = targetId
+   
    new_comment = jsonable_encoder(crud.create_comment(db, comment))
 
-   transmit_new_comment(new_comment, message)
+   transmit_new_comment(new_comment, message, target)
 
    
    return jsonable_encoder(new_comment)

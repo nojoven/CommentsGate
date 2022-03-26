@@ -39,14 +39,14 @@ def translate_fr_to_en(text: str):
       source="fr", target="en", 
       use_free_api=True).translate(text)
 
-def transmit_new_comment(new_comment: Comment, message: str):
+def transmit_new_comment(new_comment: Comment, message: str, target: str = None):
    """Adapts and sends the new comment to another service."""
    transmittable_data = {
       "id": new_comment["id"],
       "publishedAt": new_comment["publishedAt"],
       "message": message,
       "author": new_comment["authorId"],
-      "targetId": new_comment["targetId"],
+      "targetId": new_comment["targetId"] if new_comment["targetId"] else target,
       "replies": new_comment["replies"]
    }
 

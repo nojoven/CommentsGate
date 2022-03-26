@@ -1,10 +1,14 @@
 """This file contains helper functions."""
 import uuid
+import requests
 
-from deep_translator import DeeplTranslator
 import detectlanguage
+from deep_translator import DeeplTranslator
+
+from fastapi import HTTPException
 
 from settings import LANG_DETECTION_API_KEY, DEEPL_API_KEY
+from .constants import DESTINATION_URL
 from schemas.models import Comment
 
 def generate_uuid():
@@ -35,8 +39,20 @@ def translate_fr_to_en(text: str):
       source="fr", target="en", 
       use_free_api=True).translate(text)
 
-def transmit_new_comment(new_comment: Comment):
-   pass
+def transmit_new_comment(new_comment: Comment, message: str):
+   """Adapts and sends the new comment to another service."""
+   transmittable_data = {
+      "id": new_comment["id"],
+      "publishedAt": new_comment["publishedAt"],
+      "message": message,
+      "author": new_comment["authorId"],
+      "targetId": new_comment["targetId"],
+      "replies": new_comment["replies"]
+   }
+
+   res = requests.post(DESTINATION_URL, transmittable_data)
+   res.raise_for_status()
+
 
 def trigger_eager_load(data):
    """

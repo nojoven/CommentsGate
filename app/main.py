@@ -1,4 +1,3 @@
-from email import message
 from enum import Enum
 from fastapi import Depends, FastAPI, HTTPException, Path
 from fastapi.encoders import jsonable_encoder
@@ -8,9 +7,10 @@ from sqlalchemy.orm import Session
 import crud
 from models import comment
 from schemas.models import NewComment
-from utils.helpers import is_timestamp, translate_en_to_fr, translate_fr_to_en
+from utils.helpers import is_timestamp, translate_en_to_fr, translate_fr_to_en, transmit_new_comment
 from database import SessionLocal, engine
 
+from settings import DEEPL_API_KEY
 
 comment.Base.metadata.create_all(bind=engine)
 
@@ -57,7 +57,7 @@ async def get_target_comments(
 @app.post("/target/{targetId}/comments", responses={
    200: {"description": "Comment created."}
    })
-async def add_comment(
+def add_comment(
    comment: NewComment,
    targetId: str = Path(..., summary="Add comment on a target."),
    db: Session = Depends(get_db)):
@@ -66,7 +66,7 @@ async def add_comment(
 
    - **operationId**: addComment
    """
-   
+
    if not comment:
       raise HTTPException(status_code=422, detail="A comment is required.")
 
@@ -86,6 +86,7 @@ async def add_comment(
    
    new_comment = jsonable_encoder(crud.create_comment(db, comment))
 
+   transmit_new_comment(new_comment, message)
+
    
-   return new_comment
-   # return jsonable_encoder(new_comment)
+   return jsonable_encoder(new_comment)

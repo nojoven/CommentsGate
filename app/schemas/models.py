@@ -16,7 +16,7 @@ class NewComment(CommentBase):
 
 
 class Comment(CommentBase):
-    id: str | None
+    id: str 
     replies: list  # dict #List = [] # list[dict] = []
 
     class Config:

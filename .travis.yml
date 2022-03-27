@@ -25,4 +25,4 @@ script:
   - pwd
   - ls -a
   - safety check
-  - docker-compose run commentsgate_comments_gate_1 sh -c "pytest"
+  - pytest

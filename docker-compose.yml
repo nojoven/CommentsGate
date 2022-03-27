@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  waitfordb:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - db 
+    command: db:${DB_PORT}
+
+  comments_gate:
+    build:
+      context: .
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
+    volumes:
+     - ./comments_gate:/comments_gate
+    # command: >
+    #   sh -c "uvicorn app.main:app --reload"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_ENGINE=${DB_ENGINE}
+      - DEEPL_API_KEY=${DEEPL_API_KEY}
+      - DB_PORT=${DB_PORT}
+      - SERVICE_PORT=${SERVICE_PORT}
+    depends_on:
+      - waitfordb
+      - db  
+
+  db:
+    image: postgres:13.4-alpine
+    restart: on-failure
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      - DB_PORT=${DB_PORT}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}

@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.dirname(__file__))
 from enum import Enum
 from fastapi import Depends, FastAPI, HTTPException, Path
 from fastapi.encoders import jsonable_encoder
@@ -85,11 +88,11 @@ def add_comment(
       message = f"'{comment.textFr}' => '{comment.textEn}'"
    
    if not comment.targetId or comment.targetId != targetId:
-      target = targetId
+      comment.targetId = targetId
    
    new_comment = jsonable_encoder(crud.create_comment(db, comment))
 
-   transmit_new_comment(new_comment, message, target)
+   transmit_new_comment(new_comment, message)
 
    
    return jsonable_encoder(new_comment)

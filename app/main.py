@@ -19,8 +19,6 @@ from utils.helpers import (
 )
 from database import SessionLocal, engine
 
-from settings import DEEPL_API_KEY
-
 comment.Base.metadata.create_all(bind=engine)
 
 

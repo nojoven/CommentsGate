@@ -5,8 +5,6 @@ import requests
 import detectlanguage
 from deep_translator import DeeplTranslator
 
-from fastapi import HTTPException
-
 from settings import LANG_DETECTION_API_KEY, DEEPL_API_KEY
 from .constants import DESTINATION_URL
 from schemas.models import Comment

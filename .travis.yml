@@ -17,9 +17,12 @@ install:
   - pip install fastapi["all"]
 
 
-before_script: pip install docker-compose
-
+before_script: 
+  - pip install docker-compose
+  - cd /home/travis/build/nojoven/CommentsGate/
 script:
-  - docker-compose run owlapi sh -c "pytest"
+  - docker-compose --env-file ./config/.env up -d --build
+  - pwd
+  - ls -a
   - safety check
-  - pytest
+  - docker-compose run commentsgate_comments_gate_1 sh -c "pytest"

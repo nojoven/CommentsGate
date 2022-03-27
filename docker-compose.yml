@@ -10,6 +10,7 @@ services:
   comments_gate:
     build:
       context: .
+    restart: on-failure
     ports:
       - "${SERVICE_PORT}:${SERVICE_PORT}"
     volumes:

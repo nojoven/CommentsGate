@@ -79,6 +79,7 @@ def add_comment(
     - **operationId**: addComment
     """
     message = ""
+
     if not comment:
         raise HTTPException(status_code=422, detail="A comment is required.")
 
@@ -105,6 +106,11 @@ def add_comment(
 
     if not comment.targetId or comment.targetId != targetId:
         comment.targetId = targetId
+
+    if not message:
+      raise HTTPException(
+            status_code=422, detail="Cannot be forwarded"
+   )
 
     new_comment = jsonable_encoder(crud.create_comment(db, comment))
 

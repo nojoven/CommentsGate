@@ -24,7 +24,7 @@ before_script:
   - cd /home/travis/build/nojoven/CommentsGate/
 script:
   - docker-compose --env-file ./config/.env up -d --build
-  - pip install --no-cache-dir --upgrade -r /CommentsGate/requirements.txt
+  - pip install --no-cache-dir --upgrade -r requirements.txt
   - pwd
   - ls -a
   - safety check

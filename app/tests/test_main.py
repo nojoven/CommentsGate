@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 from fastapi.testclient import TestClient
 
-from utils.constants import TARGET_ID_EXAMPLE as targetId_test
+from app.utils.constants import TARGET_ID_EXAMPLE as targetId_test
 from app.main import app
 
 client = TestClient(app)

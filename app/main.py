@@ -72,6 +72,9 @@ def add_comment(
 
    if not comment:
       raise HTTPException(status_code=422, detail="A comment is required.")
+   
+   if not comment.authorId:
+      raise HTTPException(status_code=422, detail="The authorId is required.")
 
    if not comment.textFr and not comment.textEn:
       raise HTTPException(status_code=422, detail="A text is required at least in one language.")

@@ -102,12 +102,12 @@ def add_comment(
 
     if comment.textEn and not comment.textFr:
         comment.textFr = translate_en_to_fr(comment.textEn)
-        message = f"'{comment.textFr}' => '{comment.textEn}'"
+        message = f"'{comment.textEn}' => '{comment.textFr}'"
 
     if not comment.targetId or comment.targetId != targetId:
         comment.targetId = targetId
 
-    if not message:
+    if not message or message == "":
       raise HTTPException(
             status_code=422, detail="Cannot be forwarded"
    )

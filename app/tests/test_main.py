@@ -10,7 +10,7 @@ client = TestClient(app)
 
 def test_create_new_comment():
     comment = dict()
-    comment["textFr"] = "Bien joué!"
+    comment["textFr"] = ""
     comment["textEn"] = "Well Done!"
     comment["publishedAt"] = str(datetime.now().timestamp())
     comment["authorId"] = "cjo2022"

@@ -78,7 +78,7 @@ def add_comment(
 
     - **operationId**: addComment
     """
-
+    message = ""
     if not comment:
         raise HTTPException(status_code=422, detail="A comment is required.")
 

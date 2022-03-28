@@ -6,7 +6,8 @@ Last commit before the date and time limits of the challenge here : https://gith
 
 This API processes comments.
 
-- The URL is http://localhost/target/**targetId**/comments
+- The URL is http://localhost:8000/target/**targetId**/comments
+- The Swagger documentation is accessible at http://localhost:8000/docs
 - A GET request returns the comments of a target object.
 - A POST request is used to save a new comment in the database. 
 The API will also send each new comment to another service.
